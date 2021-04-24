@@ -3,7 +3,7 @@ from typing import Iterable, List, Union
 import pandas as pd
 import numpy as np
 
-from .utilities import NumericalDetails
+from .utilities import NumericalDetails, binary_search
 
 
 def is_class_attribute(attribute_name: str) -> bool:
@@ -90,6 +90,10 @@ class AttributeNode(Node):
 
     def get_value(self, value):
         return next(x for x in self.values if x.label == value)
+
+    def get_nearest(self, value) -> ValueNode:
+        idx = binary_search(self.values, value, lambda v: v.label)
+        return self.values[idx]
 
     def _initialise_values(self, column: pd.Series) -> List[ValueNode]:
         values = list(sorted(set(column)))

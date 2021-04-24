@@ -1,5 +1,6 @@
 from argparse import ArgumentParser
 import pandas as pd
+from itertools import islice
 
 from .agds import Agds
 from .nodes import AttributeNode, ObjectNode
@@ -14,8 +15,14 @@ def main(dataset_path: str):
     for attribute in agds.attributes:
         display_attribute_summary(attribute)
 
-    agds.find_similarity_to_object('O111')
-    for obj in sorted(agds.objects, key=lambda obj: -obj.similarity)[:10]:
+    print('\nObjects most similar to "O111":')
+    for obj in islice(agds.find_similar_to_object('O111'), 10):
+        print(f'({obj.similarity}) : ' + write_object_summary(obj))
+
+    given_values = { 'sepal-length': 4.8, 'sepal-width': 3, 'petal-length': 1.55, 'petal-width': 0.2 }
+    print('\nObjects most similar to a given value set:')
+    print(given_values)
+    for obj in islice(agds.find_similar_by_values(given_values), 5):
         print(f'({obj.similarity}) : ' + write_object_summary(obj))
 
 
