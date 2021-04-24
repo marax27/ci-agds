@@ -1,8 +1,8 @@
 from argparse import ArgumentParser
-from typing import List
 import pandas as pd
 
 from .agds import Agds
+from .nodes import AttributeNode
 
 
 def main(dataset_path: str):
@@ -11,6 +11,15 @@ def main(dataset_path: str):
     print(df.head())
 
     agds = Agds.from_dataframe(df)
+    for attribute in agds.attributes:
+        display_attribute_summary(attribute)
+
+
+def display_attribute_summary(attribute: AttributeNode):
+    print(f'== {attribute.label} ==')
+    if attribute.details:
+        print(f'Details: {attribute.details}')
+    print(', '.join(f'{val.label}' + (f' ({val.get_count()})' if val.get_count() > 1 else '') for val in attribute.values))
 
 
 def create_parser() -> ArgumentParser:
