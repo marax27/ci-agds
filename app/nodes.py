@@ -32,6 +32,9 @@ class ObjectNode(Node):
     def get_weight(self) -> float:
         return 1.0
 
+    def get_value(self, attribute: str):
+        return next(x for x in self.values if x.attribute.label == attribute).label
+
     def infer(self, similarity):
         self.similarity = similarity
         for value in self.values:

@@ -29,6 +29,15 @@ class Agds:
             value.infer(1.0)
         return sorted(self.objects, key=lambda obj: -obj.similarity)
 
+    def classify(self, values: Dict[str, float]) -> Iterable[ObjectNode]:
+        sorted_objects = self.find_similar_by_values(values)
+        classes = dict()
+        for obj in sorted_objects:
+            class_name = obj.get_value('class')
+            classes[class_name] = classes.get(class_name, 0.0) + obj.similarity
+        return max(classes.items(), key=lambda x: x[1])[0]
+
+
     def add_attribute(self, label: str, column_data):
         self.attributes.append(AttributeNode(label, column_data, self))
 

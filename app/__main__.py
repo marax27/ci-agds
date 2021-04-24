@@ -25,6 +25,8 @@ def main(dataset_path: str):
     for obj in islice(agds.find_similar_by_values(given_values), 5):
         print(f'({obj.similarity}) : ' + write_object_summary(obj))
 
+    print('\nTrying to classify the values above: ' + agds.classify(given_values))
+
 
 def display_attribute_summary(attribute: AttributeNode):
     print(f'== {attribute.label} ==')
