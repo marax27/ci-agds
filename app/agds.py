@@ -14,6 +14,12 @@ class Agds:
     def get_object(self, label: str) -> ObjectNode:
         return next(node for node in self.objects if node.label == label)
 
+    def find_similarity_to_object(self, object_id: str):
+        for obj in self.objects:
+            obj.similarity = 0.0
+        target_obj = next(x for x in self.objects if x.label == object_id)
+        target_obj.infer(1.0)
+
     def add_attribute(self, label: str, column_data):
         self.attributes.append(AttributeNode(label, column_data, self))
 
