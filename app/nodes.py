@@ -1,7 +1,6 @@
 from enum import Enum
 from typing import Iterable, List, Union
 import pandas as pd
-import numpy as np
 
 from .utilities import NumericalDetails, binary_search
 

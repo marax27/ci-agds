@@ -1,10 +1,9 @@
 from argparse import ArgumentParser
-from collections import Counter
 import pandas as pd
 from itertools import islice
 
 from .agds import Agds
-from .nodes import AttributeNode, ObjectNode
+from .nodes import ObjectNode
 
 
 def main(dataset_path: str):
@@ -12,10 +11,7 @@ def main(dataset_path: str):
     print(df.dtypes)
     print(df.head())
 
-    # Dataset presets.
-    # start_iris_test(df)
-    # start_penguin_test(df)
-
+    # Iris and Penguin dataset handlers are already defined.
     if 'iris' in dataset_path.lower():
         start_iris_test(df)
     elif 'penguin' in dataset_path.lower():
