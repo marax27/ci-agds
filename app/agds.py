@@ -4,7 +4,8 @@ from .nodes import ObjectNode, AttributeNode
 
 
 class Agds:
-    def __init__(self) -> None:
+    def __init__(self, class_column: str) -> None:
+        self.class_attribute_name = class_column
         self.objects: List[ObjectNode] = []
         self.attributes: List[AttributeNode] = []
 
@@ -33,7 +34,7 @@ class Agds:
         sorted_objects = self.find_similar_by_values(values)
         classes = dict()
         for obj in sorted_objects:
-            class_name = obj.get_value('class')
+            class_name = obj.get_value(self.class_attribute_name)
             classes[class_name] = classes.get(class_name, 0.0) + obj.similarity
         return max(classes.items(), key=lambda x: x[1])[0]
 
@@ -46,8 +47,8 @@ class Agds:
         pass
 
     @staticmethod
-    def from_dataframe(df: pd.DataFrame) -> 'Agds':
-        graph = Agds()
+    def from_dataframe(df: pd.DataFrame, class_column_name: str) -> 'Agds':
+        graph = Agds(class_column_name)
 
         for label, column in df.items():
             graph.add_attribute(label, column)

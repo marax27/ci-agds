@@ -6,8 +6,9 @@ import numpy as np
 from .utilities import NumericalDetails, binary_search
 
 
-def is_class_attribute(attribute_name: str) -> bool:
-    return attribute_name == 'class'
+def is_categorical(data: pd.Series) -> bool:
+    type_name = str(data.dtype)
+    return 'float' not in type_name
 
 
 class Node:
@@ -87,7 +88,7 @@ class AttributeNode(Node):
     def __init__(self, label: str, column_data: pd.Series, root):
         super().__init__(label)
         self.root = root
-        self.type = self.Types.CATEGORICAL if is_class_attribute(label) else self.Types.NUMERICAL
+        self.type = self.Types.CATEGORICAL if is_categorical(column_data) else self.Types.NUMERICAL
         self.values = self._initialise_values(column_data)
         self.details = self._initialise_numerical_details(column_data) if self.type == self.Types.NUMERICAL else None
 
@@ -99,7 +100,8 @@ class AttributeNode(Node):
         return self.values[idx]
 
     def _initialise_values(self, column: pd.Series) -> List[ValueNode]:
-        values = list(sorted(set(column)))
+        unique_values = set(column)
+        values = list(sorted(unique_values))
         nodes = [ValueNode(value, self) for value in values]
         if self.type == self.Types.NUMERICAL:
             self._link_nodes_in_list(nodes)

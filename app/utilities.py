@@ -10,7 +10,7 @@ class NumericalDetails:
         self.average = average
 
     def __str__(self) -> str:
-        return f'<{self.min:.6} ... avg={self.average:.6} ... {self.max:.6}>'
+        return f'[{float(self.min):.6} ... avg={float(self.average):.6} ... {float(self.max):.6}]'
 
 
 def binary_search(collection: List[T], value: float, mapper: Callable[[T], float]=None) -> float:
