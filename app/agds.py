@@ -32,10 +32,17 @@ class Agds:
 
     def classify(self, values: Dict[str, float]) -> Iterable[ObjectNode]:
         sorted_objects = self.find_similar_by_values(values)
-        classes = dict()
+        classes, abundances = dict(), dict()
         for obj in sorted_objects:
             class_name = obj.get_value(self.class_attribute_name)
             classes[class_name] = classes.get(class_name, 0.0) + obj.similarity
+            abundances[class_name] = abundances.get(class_name, 0) + 1
+
+        # Normalize.
+        for k in classes.keys():
+            if abundances[k] != 0:
+                classes[k] /= abundances[k]
+
         return max(classes.items(), key=lambda x: x[1])[0]
 
 

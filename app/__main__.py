@@ -46,26 +46,27 @@ def start_penguin_test(df: pd.DataFrame):
         one_hot_sex,
     ], axis=1)
     df.dropna(inplace=True)
-
-    print(df.head())
+    # print(df.head())
 
     agds = Agds.from_dataframe(df, 'Species')
-
+    print(f'\nThe graph has {len(agds.attributes)} attributes and {len(agds.objects)} objects.')
     display_attribute_summary(agds)
 
     example = {
         'Culmen Length (mm)': 46.1,
-        'Culmen Depth (mm)': 13.2,
-        'Flipper Length (mm)': 211,
-        'Body Mass (g)': 4500,
-        'Delta 15 N (o/oo)': 7.993,
+        'Culmen Depth (mm)': 17.2,
+        'Flipper Length (mm)': 199,
+        'Body Mass (g)': 4000,
+        'Sex_FEMALE': 1,
+        'Sex_MALE': 0,
+        'Delta 15 N (o/oo)': 9.078,
         'Delta 13 C (o/oo)': -25.5139,
     }
     print(f'\nClassified as {agds.classify(example)}')
 
 
 def display_attribute_summary(graph: Agds):
-    print('Attribute summary:')
+    print('\nAttribute summary:')
     for attribute in graph.attributes:
         print(f'== {attribute.label} ==')
         if attribute.details:
